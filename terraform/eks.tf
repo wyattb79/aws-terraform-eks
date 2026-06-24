@@ -1,6 +1,8 @@
 resource "aws_eks_cluster" "eks-cluster" {
   name = "eks-test-cluster"
 
+  version = "${var.tf-version}"
+
   role_arn = aws_iam_role.eks-cluster-role.arn
 
   vpc_config {
@@ -9,6 +11,14 @@ resource "aws_eks_cluster" "eks-cluster" {
       aws_subnet.subnet_b.id
     ]
   }
+
+  access_config {
+    authentication_mode = "API"
+  }
+
+  depends_on = [
+    aws_vpc_endpoint.eks-ec2-endpoint
+  ]
 }
 
 resource "aws_eks_node_group" "eks-nodegroup" {
@@ -27,4 +37,13 @@ resource "aws_eks_node_group" "eks-nodegroup" {
     aws_subnet.subnet_a.id,
     aws_subnet.subnet_b.id
   ]
+  ami_type = "AL2023_x86_64_STANDARD"
+  capacity_type = "ON_DEMAND"
+  instance_types = ["t3.medium"]
+}
+
+resource "aws_eks_addon" "vpc_cni_plugin" {
+  addon_name = "vpc-cni"
+  cluster_name = aws_eks_cluster.eks-cluster.name
+  
 }

@@ -82,6 +82,17 @@ resource "aws_iam_role_policy_attachment" "eks-nodegroup-policy-attachment" {
   policy_arn = aws_iam_policy.eks-nodegroup-policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "nodegroup-required-policies-attachment" {
+  for_each = toset(local.node_group_policies)
+  role = aws_iam_role.eks-nodegroup-role.name
+  policy_arn = each.value
+}
+
+resource "aws_iam_role_policy_attachment" "cluster-required-policies-attachment" {
+  for_each = toset(local.cluster_policies)
+  role = aws_iam_role.eks-cluster-role.name
+  policy_arn = each.value
+}
 
 resource "aws_iam_role_policy_attachment" "worker_node_policy" {
   role = aws_iam_role.eks-nodegroup-role.name
