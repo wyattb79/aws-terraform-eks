@@ -63,7 +63,6 @@ resource "aws_eks_cluster" "eks-cluster" {
 resource "aws_eks_addon" "vpc_cni_plugin" {
   addon_name = "vpc-cni"
   cluster_name = aws_eks_cluster.eks-cluster.name
-  
 }
 
 resource "aws_launch_template" "eks-node-template" {
@@ -98,4 +97,23 @@ resource "aws_eks_access_policy_association" "eks_admin_policies" {
   access_scope {
     type = "cluster"
   }
+}
+
+resource "aws_eks_addon" "pod_identity_agent" {
+  addon_name = "eks-pod-identity-agent"
+  cluster_name = aws_eks_cluster.eks-cluster.name
+
+  resolve_conflicts_on_update = "OVERWRITE"
+}
+
+resource "aws_eks_pod_identity_association" "karpenter_serviceaccount_association" {
+  cluster_name = aws_eks_cluster.eks-cluster.name
+  namespace = var.karpenter_namespace
+  service_account = "karpenter"
+  role_arn = aws_iam_role.karpenter_sa_role.arn
+
+  depends_on = [
+    aws_eks_addon.pod_identity_agent
+  ]
+  
 }
