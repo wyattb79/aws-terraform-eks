@@ -3,7 +3,7 @@ variable "eks-keypair" {
   description = "ec2 keypair used to login to the cluster nodes"
 }
 
-variable "tf-version" {
+variable "k8s_version" {
   type = string
   description = "version of k8s to run on the cluster"
 }

@@ -1,7 +1,7 @@
 resource "aws_eks_cluster" "eks-cluster" {
   name = "eks-test-cluster"
 
-  version = "${var.tf-version}"
+  version = "${var.k8s_version}"
 
   role_arn = aws_iam_role.eks-cluster-role.arn
 

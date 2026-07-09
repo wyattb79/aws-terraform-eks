@@ -116,11 +116,14 @@ resource "aws_iam_role" "karpenter_sa_role" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
+        Action = [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
         Effect = "Allow"
         Sid = ""
         Principal = {
-          Service = "eks.amazonaws.com"
+          Service = "pods.eks.amazonaws.com"
         }
       },
     ]
