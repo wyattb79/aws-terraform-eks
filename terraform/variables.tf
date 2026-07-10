@@ -32,3 +32,12 @@ variable "karpenter_namespace" {
   type = string
   description = "namespace where karpenter runs"
 }
+
+variable "use_karpenter" {
+  type = bool
+  default = false
+}
+
+variable "karpenter_chart_version" {
+  type = string
+}
