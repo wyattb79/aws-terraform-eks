@@ -1,0 +1,9 @@
+eks-keypair = 
+k8s_version = 
+partition = 
+vpc_id = 
+vpc_cidr = 
+eks_admin_group = 
+karpenter_namespace = 
+use_karpenter =
+karpenter_chart_version = 
