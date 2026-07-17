@@ -129,3 +129,11 @@ resource "aws_iam_role" "karpenter_sa_role" {
     ]
   })
 }
+
+//resource "aws_iam_policy"
+
+//resource "aws_iam_role_policy_attachment" "karpenter_policy_attachment" {
+//  role = aws_iam_role.karpenter_sa_role.name
+//  policy_arn = ""
+//}
+//

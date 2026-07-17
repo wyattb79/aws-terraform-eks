@@ -30,35 +30,35 @@ resource "aws_eks_cluster" "eks-cluster" {
   ]
 }
 
-//resource "aws_eks_node_group" "eks-nodegroup" {
-//  cluster_name = aws_eks_cluster.eks-cluster.name
-//  node_group_name = "eks-nodegroup"
-//  node_role_arn = aws_iam_role.eks-nodegroup-role.arn
-//
-//  scaling_config {
-//    desired_size = 1
-//    max_size = 1
-//    min_size = 1
-//  }
-//
-//  subnet_ids = [
-//    aws_subnet.subnet_a.id,
-//    aws_subnet.subnet_b.id
-//  ]
-//
-//  ami_type = "AL2023_x86_64_STANDARD"
-//  capacity_type = "ON_DEMAND"
-//
-//  instance_types = ["t3.medium"]
-//  launch_template {
-//    id = aws_launch_template.eks-node-template.id
-//    version = aws_launch_template.eks-node-template.latest_version
-//  }
-//
-//  depends_on = [
-//    aws_iam_role_policy_attachment.nodegroup-required-policies-attachment
-//  ]
-//}
+resource "aws_eks_node_group" "eks-nodegroup" {
+  cluster_name = aws_eks_cluster.eks-cluster.name
+  node_group_name = "eks-nodegroup"
+  node_role_arn = aws_iam_role.eks-nodegroup-role.arn
+
+  scaling_config {
+    desired_size = 1
+    max_size = 1
+    min_size = 1
+  }
+
+  subnet_ids = [
+    aws_subnet.subnet_a.id,
+    aws_subnet.subnet_b.id
+  ]
+
+  ami_type = "AL2023_x86_64_STANDARD"
+  capacity_type = "ON_DEMAND"
+
+  instance_types = ["t3.medium"]
+  launch_template {
+    id = aws_launch_template.eks-node-template.id
+    version = aws_launch_template.eks-node-template.latest_version
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.nodegroup-required-policies-attachment
+  ]
+}
 
 resource "aws_eks_addon" "vpc_cni_plugin" {
   addon_name = "vpc-cni"
